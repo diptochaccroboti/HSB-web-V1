@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HSB Landing Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Smooth scroll */
+    html { scroll-behavior: smooth; }
+    /* Fade-in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    /* Hero slideshow */
+    .slideshow-image {
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .slideshow-image.active { opacity: 1; }
+    /* Glassmorphism */
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    /* Dropdown menu */
+    .dropdown-menu {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+    .dropdown-menu.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-roboto antialiased">
+  <!-- Header -->
+  <header class="bg-white text-gray-800 shadow-xl sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <img src="OIP (1).png" alt="HSB Logo" class="h-12" onerror="this.src='https://via.placeholder.com/48';" />
+        <h1 class="text-xl md:text-2xl font-semibold">Hemophilia Society of Bangladesh</h1>
+      </div>
+      <nav class="hidden md:flex items-center space-x-8">
+        <a href="#home" class="hover:text-red-600 transition font-medium">Home</a>
+        <div class="dropdown relative">
+          <button class="hover:text-red-600 transition font-medium flex items-center" onclick="toggleDropdown('about-menu')">About <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+          <div id="about-menu" class="dropdown-menu absolute bg-white text-gray-800 rounded-lg shadow-lg mt-2 w-48 border border-gray-100">
+            <a href="#mission" class="block px-4 py-2 hover:bg-red-50 hover:text-red-600 transition">Our Mission</a>
+            <a href="#history" class="block px-4 py-2 hover:bg-red-50 hover:text-red-600 transition">History</a>
+            <a href="#team" class="block px-4 py-2 hover:bg-red-50 hover:text-red-600 transition">Our Team</a>
+          </div>
+        </div>
+        <div class="dropdown relative">
+          <button class="hover:text-red-600 transition font-medium flex items-center" onclick="toggleDropdown('programs-menu')">Programs <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+          <div id="programs-menu" class="dropdown-menu absolute bg-white text-gray-800 rounded-lg shadow-lg mt-2 w-48 border border-gray-100">
+            <a href="#medical" class="block px-4 py-2 hover:bg-red-50 hover:text-red-600 transition">Medical Care</a>
+            <a href="#education" class="block px-4 py-2 hover:bg-red-50 hover:text-red-600 transition">Education</a>
+            <a href="#community" class="block px-4 py-2 hover:bg-red-50 hover:text-red-600 transition">Community Support</a>
+          </div>
+        </div>
+        <a href="#contact" class="hover:text-red-600 transition font-medium">Contact</a>
+        <a href="D:\CSE\Bintys defANCW\Main project file\main orijet\patient portsl\patient-portal.html" class="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition font-medium">Patient Login</a>
+      </nav>
+      <button class="md:hidden focus:outline-none" id="menuToggle">
+        <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden bg-white text-gray-800 border-t border-gray-200">
+      <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+        <a href="#home" class="hover:text-red-600 transition">Home</a>
+        <div>
+          <button class="hover:text-red-600 transition font-medium flex items-center" onclick="toggleMobileDropdown('mobile-about')">About <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+          <div id="mobile-about" class="hidden mt-2 flex flex-col space-y-2 ml-4">
+            <a href="#mission" class="hover:text-red-600 transition text-sm">Our Mission</a>
+            <a href="#history" class="hover:text-red-600 transition text-sm">History</a>
+            <a href="#team" class="hover:text-red-600 transition text-sm">Our Team</a>
+          </div>
+        </div>
+        <div>
+          <button class="hover:text-red-600 transition font-medium flex items-center" onclick="toggleMobileDropdown('mobile-programs')">Programs <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+          <div id="mobile-programs" class="hidden mt-2 flex flex-col space-y-2 ml-4">
+            <a href="#medical" class="hover:text-red-600 transition text-sm">Medical Care</a>
+            <a href="#education" class="hover:text-red-600 transition text-sm">Education</a>
+            <a href="#community" class="hover:text-red-600 transition text-sm">Community Support</a>
+          </div>
+        </div>
+        <a href="#contact" class="hover:text-red-600 transition">Contact</a>
+        <a href="D:\CSE\Bintys defANCW\Main project file\main orijet\patient portsl\patient-portal.html" class="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition font-medium text-center">Patient Login</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section with Slideshow -->
+  <section id="home" class="relative h-[700px] text-white overflow-hidden">
+    <img class="slideshow-image active" src="1.jpg" alt="Medical Support" />
+    <img class="slideshow-image" src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Community" />
+    <img class="slideshow-image" src="https://images.unsplash.com/photo-1584515933487-779824d29309?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Healthcare" />
+    <div class="absolute inset-0 bg-gradient-to-r from-red-900/20 to-red-600/20 z-10"></div>
+    <div class="absolute inset-0 flex items-center justify-center z-20">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-5xl md:text-7xl font-bold mb-6 fade-in">Empowering Health, Transforming Lives</h2>
+        <p class="text-xl md:text-3xl max-w-4xl mx-auto mb-8 fade-in">Hemophilia Society of Bangladesh supports patients with bleeding disorders through care, innovation, and community.</p>
+        <a href="#contact" class="inline-block bg-white text-red-900 px-10 py-4 rounded-full hover:bg-gray-100 transition font-semibold shadow-lg fade-in">Join Our Mission</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="bg-white py-20">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl md:text-5xl font-bold text-red-600 text-center mb-12 fade-in">About HSB</h2>
+      <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <div class="fade-in">
+          <h3 id="mission" class="text-2xl font-semibold text-gray-800 mb-4">Our Mission</h3>
+          <p class="text-gray-600 mb-6">We strive to enhance the quality of life for individuals with bleeding disorders through advocacy, education, and cutting-edge healthcare solutions.</p>
+          <h3 id="history" class="text-2xl font-semibold text-gray-800 mb-4">Our History</h3>
+          <p class="text-gray-600">Since 2004, HSB has been a beacon of hope, serving thousands of patients and families across Bangladesh with unwavering commitment.</p>
+        </div>
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Community Support" class="w-full rounded-2xl shadow-xl object-cover fade-in" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs Section -->
+  <section id="programs" class="bg-gray-100 py-20">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl md:text-5xl font-bold text-red-600 text-center mb-12 fade-in">Our Programs</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div id="medical" class="glass p-6 rounded-2xl shadow-xl text-center transform hover:scale-105 transition duration-300 fade-in">
+          <img src="https://images.unsplash.com/photo-1579684453423-f84349ef60b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Medical Care" class="w-full h-48 object-cover rounded-t-xl mb-4" />
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Medical Care</h3>
+          <p class="text-gray-600">Delivering essential treatments and medical support for patients with hemophilia and bleeding disorders.</p>
+        </div>
+        <div id="education" class="glass p-6 rounded-2xl shadow-xl text-center transform hover:scale-105 transition duration-300 fade-in">
+          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Education" class="w-full h-48 object-cover rounded-t-xl mb-4" />
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Education & Awareness</h3>
+          <p class="text-gray-600">Educating communities to reduce stigma and improve care for bleeding disorders.</p>
+        </div>
+        <div id="community" class="glass p-6 rounded-2xl shadow-xl text-center transform hover:scale-105 transition duration-300 fade-in">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Community Support" class="w-full h-48 object-cover rounded-t-xl mb-4" />
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Community Support</h3>
+          <p class="text-gray-600">Fostering a supportive community through events, support groups, and resources.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="bg-white py-20">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl md:text-5xl font-bold text-red-600 text-center mb-12 fade-in">Community Voices</h2>
+      <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div class="glass p-6 rounded-2xl shadow-xl fade-in">
+          <p class="text-gray-700 mb-4">"HSB’s medical support changed my life, giving me access to treatments I never thought possible."</p>
+          <p class="text-gray-800 font-semibold">– Patient, Dhaka</p>
+        </div>
+        <div class="glass p-6 rounded-2xl shadow-xl fade-in">
+          <p class="text-gray-700 mb-4">"Their awareness programs helped my family understand hemophilia better, reducing our fears."</p>
+          <p class="text-gray-800 font-semibold">– Parent, Chittagong</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="bg-gray-100 py-20">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold text-red-600 mb-12 fade-in">Connect With Us</h2>
+      <p class="text-gray-600 text-lg max-w-xl mx-auto mb-8 fade-in">Questions or ready to join our mission? Reach out today!</p>
+      <a href="mailto:info@hemophiliabd.org" class="inline-block bg-red-600 text-white px-10 py-4 rounded-full hover:bg-red-700 transition font-semibold shadow-lg fade-in">Contact Us</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-red-900 text-white py-12">
+    <div class="container mx-auto px-4 text-center">
+      <p class="mb-4 text-lg fade-in">© 2025 Hemophilia Society of Bangladesh. All rights reserved.</p>
+      <div class="flex justify-center space-x-6 fade-in">
+        <a href="#" class="hover:text-red-200 transition">Facebook</a>
+        <a href="#" class="hover:text-red-200 transition">Twitter</a>
+        <a href="mailto:info@hemophiliabd.org" class="hover:text-red-200 transition">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById("menuToggle");
+    const mobileMenu = document.getElementById("mobileMenu");
+    menuToggle.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+
+    // Dropdown toggle for desktop
+    function toggleDropdown(menuId) {
+      const menu = document.getElementById(menuId);
+      const isActive = menu.classList.contains("active");
+      document.querySelectorAll(".dropdown-menu").forEach(m => m.classList.remove("active"));
+      if (!isActive) menu.classList.add("active");
+    }
+
+    // Dropdown toggle for mobile
+    function toggleMobileDropdown(menuId) {
+      const menu = document.getElementById(menuId);
+      menu.classList.toggle("hidden");
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".dropdown")) {
+        document.querySelectorAll(".dropdown-menu").forEach(menu => menu.classList.remove("active"));
+      }
+    });
+
+    // Hero slideshow
+    const images = document.querySelectorAll(".slideshow-image");
+    let currentImageIndex = 0;
+    function showNextImage() {
+      images[currentImageIndex].classList.remove("active");
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      images[currentImageIndex].classList.add("active");
+    }
+    setInterval(showNextImage, 5000);
+    images[currentImageIndex].classList.add("active");
+
+    // Fade-in animations on scroll
+    const fadeElements = document.querySelectorAll(".fade-in");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeElements.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
